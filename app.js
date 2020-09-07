@@ -24,3 +24,24 @@ const filter = (...args) => {
 };
 
 console.log(filter(1,2,3));
+
+// ARRRAY DESTRUCTURING
+[a,b] = ['hello', 'max']
+console.log(a)
+console.log(b)
+// pulling 1 and 2 out of the array
+// leave an empty space if you want to skip a number
+const numeros = [1,2,3];
+[num1, , num3] = numeros;
+console.log(num1, num3);
+
+// refreshing array functions..map returns a new array
+
+const numerotes = [1,2,3];
+
+const doubleNumArray = numbers.map((num) => {
+    return num * 2;
+});
+console.log(numerotes);
+console.log(doubleNumArray);
+
