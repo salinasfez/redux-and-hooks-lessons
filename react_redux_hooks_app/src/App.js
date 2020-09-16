@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
+import Radium from 'radium';
 import Person from './Person/Person';
 
 
@@ -48,13 +49,19 @@ deletePersonHandler = (personIndex) => {
   }
   render(){
     const style = {
-      backGroundColor: 'white',
+      backgroundColor: 'green',
       font: 'inherit',
       border: '1px solid blue',
       padding: '8px',
-      cursor: 'pointer'
+      cursor: 'pointer',
+      //any other pseudo selector would work as well
+      ':hover': {
+        backgroundColor: 'lightgreen',
+        color: 'black'
+      }
     };
     let persons = null;
+    
     if (this.state.showPersons) {
       persons = (
         <div>
@@ -70,11 +77,30 @@ deletePersonHandler = (personIndex) => {
            )
         })}
       </div> 
-      )
+      );
+      style.backgroundColor='red';
+      //in array brackets because it is a string
+      style[':hover'] = {
+        backgroundColor: 'salmon',
+        color: 'black'
+      }
     }
+    // classes assigned in app.css...turns array of strings into one string
+    // let classes = ['red', 'bold'].join(' ');
+const classes = [];
+
+    if (this.state.persons.length <= 2) {
+      classes.push('red'); //classes = 'red'
+    }
+    if (this.state.persons.length <= 1) {
+      classes.push('bold'); //classes = ['red','bold'];
+    }
+    
   return (
     <div className="App">
       <h1>Hi, I'm a React App</h1>
+      {/* assigning a string by using join() */}
+      <p className={classes.join(' ')}>This is really working</p>
       <button 
         style={style}
         onClick={this.togglePersonsHandler}>Toggle Persons
@@ -90,7 +116,7 @@ deletePersonHandler = (personIndex) => {
 
 
 
-export default App;
+export default Radium(App);
 
 //  functional component with state 
 // const App = props => {
