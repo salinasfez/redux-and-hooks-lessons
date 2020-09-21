@@ -1,8 +1,21 @@
 import React, { Component } from 'react';
 import './App.css';
-import Radium from 'radium';
+import styled from 'styled-components';
 import Person from './Person/Person';
 
+const StyledButton = styled.button`
+
+  background-color: ${props => props.alt ? 'red' : 'green'};
+  font: inherit;
+  border: 1px solid blue;
+  padding: 8px;
+  cursor: pointer;
+  
+  &:hover {
+    background-color: ${props => props.alt ? 'salmon' : 'lightgreen'};
+    color: black;
+}
+`;
 
 class App extends Component {
   state = {persons: [
@@ -48,18 +61,7 @@ deletePersonHandler = (personIndex) => {
     })
   }
   render(){
-    const style = {
-      backgroundColor: 'green',
-      font: 'inherit',
-      border: '1px solid blue',
-      padding: '8px',
-      cursor: 'pointer',
-      //any other pseudo selector would work as well
-      ':hover': {
-        backgroundColor: 'lightgreen',
-        color: 'black'
-      }
-    };
+
     let persons = null;
     
     if (this.state.showPersons) {
@@ -78,12 +80,12 @@ deletePersonHandler = (personIndex) => {
         })}
       </div> 
       );
-      style.backgroundColor='red';
-      //in array brackets because it is a string
-      style[':hover'] = {
-        backgroundColor: 'salmon',
-        color: 'black'
-      }
+      // style.backgroundColor='red';
+      // //in array brackets because it is a string
+      // style[':hover'] = {
+      //   backgroundColor: 'salmon',
+      //   color: 'black'
+      // }
     }
     // classes assigned in app.css...turns array of strings into one string
     // let classes = ['red', 'bold'].join(' ');
@@ -97,26 +99,27 @@ const classes = [];
     }
     
   return (
+    
     <div className="App">
       <h1>Hi, I'm a React App</h1>
       {/* assigning a string by using join() */}
       <p className={classes.join(' ')}>This is really working</p>
-      <button 
-        style={style}
-        onClick={this.togglePersonsHandler}>Toggle Persons
-      </button>
+      <StyledButton alt={this.state.showPersons}onClick={this.togglePersonsHandler}>
+        Toggle Persons
+      </StyledButton>
+    
       
       {persons}
         
     </div>
-    // React.createElement('div', null, React.createElement('h1', {className: 'App'}, 'I am a React App!'))
+   
   );
 }
 }
 
 
 
-export default Radium(App);
+export default App;
 
 //  functional component with state 
 // const App = props => {
