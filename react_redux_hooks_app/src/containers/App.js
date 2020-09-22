@@ -5,6 +5,10 @@ import Persons from '../components/Persons/Persons';
 import Cockpit from '../components/Cockpit/Cockpit';
 
 class App extends Component {
+  constructor(props){
+    super(props);
+    console.log('[App.js constructor');
+  }
   state = {persons: [
     {id: 'asff', name: 'Max', age: 28},
     {id: 'ekja', name: 'Manu', age: 29},
@@ -12,6 +16,10 @@ class App extends Component {
   ],
   otherState: 'some other value',
   showPersons: false
+}
+static getDerivedStateFromProps(props, state){
+  console.log('[App.js] getDerivedStateFromProps', props);
+  return state;
 }
 deletePersonHandler = (personIndex) => {
   // fetching up there/ slice() will make a copy of the array so when spliced the original is not mutated
@@ -22,6 +30,10 @@ deletePersonHandler = (personIndex) => {
   // setting the state of persons to the new persons...after it is spliced.
   this.setState({persons: persons})
 }
+componentDidMount() {
+  console.log('[App.js] componentDidMount');
+}
+ 
   nameChangedHandler = (event, id) => {
     // updating the person only for the input field we typed in
     // almost like map
@@ -48,7 +60,7 @@ deletePersonHandler = (personIndex) => {
     })
   }
   render(){
-
+    console.log('[App.js] render');
     let persons = null;
 
     if (this.state.showPersons) {
@@ -62,7 +74,7 @@ deletePersonHandler = (personIndex) => {
     // let classes = ['red', 'bold'].join(' ');
  return (
       <div className={classes.App}> 
-      <Cockpit 
+      <Cockpit title={this.props.title}
       showPersons={this.state.showPersons} 
       persons={this.state.persons}
       clicked={this.togglePersonsHandler}
