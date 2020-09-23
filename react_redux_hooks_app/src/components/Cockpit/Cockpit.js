@@ -1,11 +1,31 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import classes from './Cockpit.module.css';
 
 
 
 
-const cockpit = (props) => {
-    
+const Cockpit = (props) => {
+    useEffect(() => {
+        //runs for every update
+        console.log('[Cockpit.js] useEffect');
+        setTimeout(() => {
+            alert('saved data to cloud');
+        }, 1000);
+        return () => {
+            //cancelling timeout because cockpit is removed before the 1 sec
+            // clearTimeout(timer);
+            console.log('[Cockpit.js] cleanup work in useEffect');
+        }
+        //will only alert when props.persons changes, if empty [] it will fun of the first time ONLY 
+    }, [props.persons]);
+
+    useEffect(() => {
+        console.log('[Cockpit.js] 2nd useEffect');
+        return () => {
+            console.log('[Cockpit.js] cleanup work in 2nd useEffect');
+        };
+    });
+
     const assignedClasses = [];
     let btnClass = [classes.Button];
     if (props.showPersons){
@@ -30,4 +50,4 @@ const cockpit = (props) => {
     );
 }
 
-export default cockpit;
+export default Cockpit;
