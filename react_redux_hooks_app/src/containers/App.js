@@ -86,9 +86,11 @@ componentDidUpdate(){
  return (
       <div className={classes.App}>
         <button onClick={() => {this.setState({showCockpit: false})}}>Remove Cockpit</button> 
-      {this.state.showCockpit ? <Cockpit title={this.props.title}
+      {this.state.showCockpit ? 
+      <Cockpit 
+      title={this.props.title}
       showPersons={this.state.showPersons} 
-      persons={this.state.persons}
+      personsLength={this.state.persons.length}
       clicked={this.togglePersonsHandler}
       /> : null}
       {persons}
