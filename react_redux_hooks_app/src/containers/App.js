@@ -3,6 +3,9 @@ import classes from './App.module.css';
 
 import Persons from '../components/Persons/Persons';
 import Cockpit from '../components/Cockpit/Cockpit';
+import withClass from '../hoc/withClass';
+import Aux from '../hoc/Aux';
+import AuthContext from '../context/auth-context';
 
 class App extends Component {
   constructor(props){
@@ -16,7 +19,9 @@ class App extends Component {
   ],
   otherState: 'some other value',
   showPersons: false,
-  showCockpit: true
+  showCockpit: true,
+  changeCounter: 0,
+  authenticated: false
 }
 static getDerivedStateFromProps(props, state){
   console.log('[App.js] getDerivedStateFromProps', props);
@@ -61,21 +66,29 @@ componentDidUpdate(){
     person.name = event.target.value;
     const persons = [...this.state.persons];
     persons[personIndex] = person;
-    this.setState({
-      persons: persons});
-  }
+    this.setState((prevState, props) => {
+      return {
+        persons: persons,
+        changeCounter: prevState.changeCounter + 1
+      };
+    });
+  };
   togglePersonsHandler = () => {
     const doesShow = this.state.showPersons;
     this.setState({
       showPersons: !doesShow
     })
   }
+  loginHandler = () => {
+    this.setState({authenticated: true})
+  };
   render(){
     console.log('[App.js] render');
     let persons = null;
 
     if (this.state.showPersons) {
       persons =  <Persons 
+          isAuthenticated={this.state.authenticated}
           persons={this.state.persons}
           clicked = {this.deletePersonHandler}
           changed={this.nameChangedHandler}
@@ -84,8 +97,9 @@ componentDidUpdate(){
     // classes assigned in app.css...turns array of strings into one string
     // let classes = ['red', 'bold'].join(' ');
  return (
-      <div className={classes.App}>
+      <Aux>
         <button onClick={() => {this.setState({showCockpit: false})}}>Remove Cockpit</button> 
+      <AuthContext.Provider value={{authenticated: this.state.authenticated, login: this.loginHandler}}>
       {this.state.showCockpit ? 
       <Cockpit 
       title={this.props.title}
@@ -94,10 +108,11 @@ componentDidUpdate(){
       clicked={this.togglePersonsHandler}
       /> : null}
       {persons}
-    </div>
+      </AuthContext.Provider>
+    </Aux>
    
   );
 }
 }
-export default App;
+export default withClass(App, classes.App);
 
